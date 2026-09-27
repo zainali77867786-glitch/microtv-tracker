@@ -1,9 +1,9 @@
 name: MicroTV Tracker
 
 on:
-  schedule:
-    - cron: '*/15 * * * *'  # Har 15 minutes baad script chalegi
   workflow_dispatch:
+  schedule:
+    - cron: '*/15 * * * *'
 
 jobs:
   run-tracker:
@@ -22,7 +22,10 @@ jobs:
           pip install requests beautifulsoup4
 
       - name: Run script
-        run: python tracker.py
+        env:
+          GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
+        run: |
+          python tracker.py
 
       - name: Save changes (if any)
         uses: stefanzweifel/git-auto-commit-action@v4
